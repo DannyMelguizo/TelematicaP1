@@ -33,7 +33,7 @@ def handler_client_connection(client_connection,client_address):
             response = "200 OK\n"
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif(command == constants.GET):
-            response = "200 OK\n"
+            response = f"200 OK\n\rDir {remote_command[1]}\n"
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif (command == constants.QUIT):
             response = '200 OK\n'
