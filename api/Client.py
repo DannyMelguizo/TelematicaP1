@@ -6,7 +6,7 @@ client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 def main():
     print('***********************************')
     print('Client is running...')
-    client_socket.connect(("127.0.0.1",constants.PORT))
+    client_socket.connect((constants.IP_SERVER,constants.PORT))
     local_tuple = client_socket.getsockname()
     print('Connected to the server from:', local_tuple)
     print('Enter \"quit\" to exit')
