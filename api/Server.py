@@ -27,13 +27,16 @@ def handler_client_connection(client_connection,client_address):
         print(command)
         
         if (command == constants.HEAD):
-            response = '100 OK\n'
+            response = '200 OK\n'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif (command == constants.POST):
-            response = "300 DRCV\n"
+            response = "200 OK\n"
+            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+        elif(command == constants.GET):
+            response = "200 OK\n"
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif (command == constants.QUIT):
-            response = '200 BYE\n'
+            response = '200 OK\n'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
             is_connected = False
         else:
