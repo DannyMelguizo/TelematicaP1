@@ -36,7 +36,3 @@ def get(path):
     }
 
     return answer
-
-request = get('/img/nature.jpg')
-
-print(request)
