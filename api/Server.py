@@ -35,12 +35,12 @@ def handler_client_connection(client_connection,client_address):
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif(command == constants.GET):
             request = get.get(remote_command[1])
-            response = f"""{remote_command[2]} 200 OK\n\r
-                        Date: {request['Date']}\n\r
-                        Server: {request['Server']}\n\r
-                        Content-Type: {request['Content-Type']}\n\r
-                        Content-Length: {request['Content-Length']}\n\n\r
-                        {request['file']}"""
+            response = f"""{remote_command[2]} 200 OK\n
+                        \rDate: {request['Date']}\n
+                        \rServer: {request['Server']}\n
+                        \rContent-Type: {request['Content-Type']}\n
+                        \rContent-Length: {request['Content-Length']}\n\n
+                        \r{request['file']}\n"""
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         elif (command == constants.QUIT):
             response = '200 OK\n'
