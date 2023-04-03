@@ -17,10 +17,12 @@ def get(path):
 
     try:
         file = open(new_path, 'r')
+        file = file.read()
     except:
         file = open(new_path, 'rb')
+        file = file.read()
+        file = file.decode('ISO-8859-1')
 
-    file = file.read()
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
     content_length = os.path.getsize(new_path)
@@ -34,3 +36,7 @@ def get(path):
     }
 
     return answer
+
+request = get('/img/nature.jpg')
+
+print(request)
