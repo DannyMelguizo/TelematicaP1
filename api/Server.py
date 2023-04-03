@@ -30,22 +30,26 @@ def handler_client_connection(client_connection,client_address):
         if (command == constants.HEAD):
             response = '200 OK\n'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+
         elif (command == constants.POST):
             response = "200 OK\n"
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+
         elif(command == constants.GET):
             request = get.get(remote_command[1])
-            response = f"""{remote_command[2]} 200 OK\n
-                        \rDate: {request['Date']}\n
-                        \rServer: {request['Server']}\n
-                        \rContent-Type: {request['Content-Type']}\n
+            response = f"""\n{remote_command[2]} 200 OK\n
+                        \rDate: {request['Date']}
+                        \rServer: {request['Server']}
+                        \rContent-Type: {request['Content-Type']}
                         \rContent-Length: {request['Content-Length']}\n\n
                         \r{request['file']}\n"""
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+
         elif (command == constants.QUIT):
             response = '200 OK\n'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
             is_connected = False
+
         else:
             response = '400 BCMD\n\rCommand-Description: Bad command\n\r'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))

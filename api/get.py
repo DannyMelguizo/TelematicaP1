@@ -10,7 +10,6 @@ def get(path):
         path = 'index.html'
 
     else:
-        path = path.replace('/', '\\')
         path = path[1:]
 
     rt = os.getcwd()
@@ -31,3 +30,8 @@ def get(path):
     }
 
     return answer
+
+
+request = get('/css/style.css')
+
+print(request)
