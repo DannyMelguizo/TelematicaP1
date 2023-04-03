@@ -4,7 +4,7 @@ import constants
 import mimetypes
 
 
-def get(path):
+def post(path):
 
     if path != '/confirmacion.html':
         path = 'error405.html'
