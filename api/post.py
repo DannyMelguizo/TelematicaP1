@@ -6,13 +6,14 @@ import mimetypes
 
 def get(path):
 
-    if path == '/':
-        path = 'index.html'
+    if path != '/confirmacion.html':
+        path = 'error405.html'
 
     else:
         path = path[1:]
 
-    rt = os.getcwd()
+    
+    rt = os.getcwd() #Ruta del directorio actual
     new_path = os.path.join(str(os.path.dirname(rt)), path)
 
     file = open(new_path, 'r')

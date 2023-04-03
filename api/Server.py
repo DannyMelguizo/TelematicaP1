@@ -56,7 +56,7 @@ def handler_client_connection(client_connection,client_address):
             is_connected = False
 
         else:
-            response = '400 BCMD\n\rCommand-Description: Bad command\n\r'
+            response = '400 OK\n\rCommand-Description: Bad Request\n\r'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
     
     print(f'Now, client {client_address[0]}:{client_address[1]} is disconnected...')
