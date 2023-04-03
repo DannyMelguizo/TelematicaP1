@@ -1,7 +1,7 @@
 import socket
 import threading
 import constants
-import get
+import get , head , post
 
 # Defining a socket object...
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -28,7 +28,12 @@ def handler_client_connection(client_connection,client_address):
         print(command)
         
         if (command == constants.HEAD):
-            response = '200 OK\n'
+            request = head.head(remote_command[1])
+            response = f"""\n{remote_command[2]} 200 OK
+                        \rDate: {request['Date']}
+                        \rServer: {request['Server']}
+                        \rContent-Type: {request['Content-Type']}
+                        \rContent-Length: {request['Content-Length']}"""
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.POST):
@@ -37,7 +42,7 @@ def handler_client_connection(client_connection,client_address):
 
         elif(command == constants.GET):
             request = get.get(remote_command[1])
-            response = f"""\n{remote_command[2]} 200 OK\n
+            response = f"""\n{remote_command[2]} 200 OK
                         \rDate: {request['Date']}
                         \rServer: {request['Server']}
                         \rContent-Type: {request['Content-Type']}
