@@ -15,7 +15,11 @@ def get(path):
     rt = os.getcwd()
     new_path = os.path.join(str(os.path.dirname(rt)), path)
 
-    file = open(new_path, 'r')
+    try:
+        file = open(new_path, 'r')
+    except:
+        file = open(new_path, 'rb')
+
     file = file.read()
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
