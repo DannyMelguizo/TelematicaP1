@@ -21,7 +21,7 @@ def head(path):
 
     answer = {
         'Date' : ttime,
-        'Server' : 'AWS',
+        'Server' : constants.SERVER,
         'Content-Type' : f'{content_type} ; {constants.ENCONDING_FORMAT}',
         'Content-Length' : content_length,
     }

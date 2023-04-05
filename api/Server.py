@@ -26,34 +26,56 @@ def handler_client_connection(client_connection,client_address):
         command = remote_command[0]
         print (f'Data received from: {client_address[0]}:{client_address[1]}')
         print(command)
+
+        state = '200 OK'
         
         if (command == constants.HEAD):
-            request = head.head(remote_command[1])
-            response = f"""\n{remote_command[2]} 200 OK
-                        \rDate: {request['Date']}
-                        \rServer: {request['Server']}
-                        \rContent-Type: {request['Content-Type']}
-                        \rContent-Length: {request['Content-Length']}\n\n"""
+
+            try:
+                request = head.head(remote_command[1])
+                
+            except:
+                request = '/error/error404.html'
+                state = "404 Not Found"
+            
+            response = f"""\n{remote_command[2]} {state}
+            \rDate: {request['Date']}
+            \rServer: {request['Server']}
+            \rContent-Type: {request['Content-Type']}
+            \rContent-Length: {request['Content-Length']}\n\n"""
+
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.POST):
+            
             request = post.post(remote_command[1])
-            response = f"""\n{remote_command[2]} 200 OK
-                        \rDate: {request['Date']}
-                        \rServer: {request['Server']}
-                        \rContent-Type: {request['Content-Type']}
-                        \rContent-Length: {request['Content-Length']}\n\n
-                        \r{request['file']}\n"""
+        
+            response = f"""\n{remote_command[2]} {request['state']}
+                    \rDate: {request['Date']}
+                    \rServer: {request['Server']}
+                    \rContent-Type: {request['Content-Type']}
+                    \rContent-Length: {request['Content-Length']}\n\n
+                    \r{request['file']}\n\n"""
+
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
         elif(command == constants.GET):
-            request = get.get(remote_command[1])
-            response = f"""\n{remote_command[2]} 200 OK
-                        \rDate: {request['Date']}
-                        \rServer: {request['Server']}
-                        \rContent-Type: {request['Content-Type']}
-                        \rContent-Length: {request['Content-Length']}\n\n
-                        \r{request['file']}\n"""
+            
+            try:
+                request = get.get(remote_command[1])
+                
+            except:
+                request = '/error/error404.html'
+
+                state = "404 Not Found"
+                
+            response = f"""\n{remote_command[2]} {state}
+                \rDate: {request['Date']}
+                \rServer: {request['Server']}
+                \rContent-Type: {request['Content-Type']}
+                \rContent-Length: {request['Content-Length']}\n\n
+                \r{request['file']}\n\n"""
+
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.QUIT):
@@ -62,7 +84,7 @@ def handler_client_connection(client_connection,client_address):
             is_connected = False
 
         else:
-            response = '400 OK\n\rCommand-Description: Bad Request\n\r'
+            response = '400 Bad Request\n'
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
     
     print(f'Now, client {client_address[0]}:{client_address[1]} is disconnected...')
