@@ -68,13 +68,15 @@ def handler_client_connection(client_connection,client_address):
                 request = get.get('/error/error404.html')
 
                 state = "404 Not Found"
+
+            file = request['file']
                 
             response = f"""\n{remote_command[2]} {state}
                 \rDate: {request['Date']}
                 \rServer: {request['Server']}
                 \rContent-Type: {request['Content-Type']}
                 \rContent-Length: {request['Content-Length']}\n\n
-                \r{request['file']}\n\n"""
+                \r{file}\n\n"""
 
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
