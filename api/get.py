@@ -24,8 +24,8 @@ def get(path):
     except:
         file = open(new_path, 'rb')
         file = file.read()
-        file = base64.b64encode(file)
-        file = file.decode('utf-8')
+        #file = base64.b64encode(file)
+        file = file.decode('latin-1')
 
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
@@ -40,3 +40,5 @@ def get(path):
     }
 
     return answer
+
+rq = get('\\TelematicaP1\\files\\nature.jpg')
