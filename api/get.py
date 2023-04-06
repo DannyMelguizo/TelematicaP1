@@ -2,6 +2,7 @@ import time
 import os
 import constants
 import mimetypes
+import base64
 
 
 def get(path):
@@ -23,7 +24,9 @@ def get(path):
     except:
         file = open(new_path, 'rb')
         file = file.read()
-        file = file.decode('ISO-8859-1')
+        file = base64.b64encode(file)
+        file = file.decode('utf-8')
+
 
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
