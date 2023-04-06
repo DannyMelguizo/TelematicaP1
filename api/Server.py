@@ -35,7 +35,7 @@ def handler_client_connection(client_connection,client_address):
                 request = head.head(remote_command[1])
                 
             except:
-                request = '/error/error404.html'
+                request = head.head('/error/error404.html')
                 state = "404 Not Found"
             
             response = f"""\n{remote_command[2]} {state}
@@ -65,7 +65,7 @@ def handler_client_connection(client_connection,client_address):
                 request = get.get(remote_command[1])
                 
             except:
-                request = '/error/error404.html'
+                request = get.get('/error/error404.html')
 
                 state = "404 Not Found"
                 

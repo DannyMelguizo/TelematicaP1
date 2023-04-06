@@ -6,6 +6,8 @@ import mimetypes
 
 def get(path):
 
+
+
     if path == '/':
         path = 'index.html'
 
