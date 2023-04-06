@@ -27,11 +27,6 @@ def get(path):
         file = base64.b64encode(file)
         file = file.decode('utf-8')
 
-    
-    print(len(file))
-    input()
-
-
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
     content_length = os.path.getsize(new_path)
@@ -45,8 +40,3 @@ def get(path):
     }
 
     return answer
-
-
-rq = get("\TelematicaP1\\files\\nature.jpg")
-
-print(rq)
