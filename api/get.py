@@ -34,5 +34,3 @@ def get(path):
 
     return answer
 
-
-rq = get('\\TelematicaP1\\files\\nature.jpg')

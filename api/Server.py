@@ -113,6 +113,7 @@ def server_execution():
 
 
 def send_file(client_connection, file):
+    file = file.encode(constants.ENCONDING_FORMAT)
     total_bytes_sent = 0
     while total_bytes_sent < len(file):
         bytes_sent = client_connection.send(file[total_bytes_sent:total_bytes_sent+constants.RECV_BUFFER_SIZE])
