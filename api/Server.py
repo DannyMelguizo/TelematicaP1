@@ -94,7 +94,7 @@ def handler_client_connection(client_connection,client_address):
                 \rServer: {server}
                 \rContent-Type: {content_type}
                 \rContent-Length: {content_length}\n\n
-                \r{file}"""
+                \r{file}\n\n"""
         
         client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
     
