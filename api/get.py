@@ -28,10 +28,9 @@ def get(path):
 
     answer = {
         'Date' : ttime,
-        'Server' : constants.SERVER,
         'Content-Type' : f'{content_type} ; {constants.ENCONDING_FORMAT}',
         'Content-Length' : content_length,
-        'file' : file
+        'file' : new_path
     }
 
     return answer

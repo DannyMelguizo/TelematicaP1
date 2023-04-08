@@ -27,7 +27,15 @@ def handler_client_connection(client_connection,client_address):
         print (f'Data received from: {client_address[0]}:{client_address[1]}')
         print(command)
 
-        state = '200 OK'
+        state = '200'
+        description = 'OK'
+        date = 0
+        server = constants.SERVER
+        content_type = 0
+        content_length = 0
+        file = 0
+
+        request = 0
         
         if (command == constants.HEAD):
 
@@ -36,28 +44,20 @@ def handler_client_connection(client_connection,client_address):
                 
             except:
                 request = head.head('/error/error404.html')
-                state = "404 Not Found"
-            
-            response = f"""\n{remote_command[2]} {state}
-            \rDate: {request['Date']}
-            \rServer: {request['Server']}
-            \rContent-Type: {request['Content-Type']}
-            \rContent-Length: {request['Content-Length']}\n\n"""
-
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+                state = "404"
+                description = 'Not Found'
 
         elif (command == constants.POST):
-            
-            request = post.post(remote_command[1])
-        
-            response = f"""\n{remote_command[2]} {request['state']}
-                    \rDate: {request['Date']}
-                    \rServer: {request['Server']}
-                    \rContent-Type: {request['Content-Type']}
-                    \rContent-Length: {request['Content-Length']}\n\n
-                    \r{request['file']}\n\n"""
 
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+            if remote_command[1] != '/confirmacion.html':
+                state = '405'
+                description = 'Method Not Allowed'
+                request = post.post('/error/error405.html')
+            else:
+                request = post.post(remote_command[1])
+            
+            file = request['file']
+
 
         elif(command == constants.GET):
             
@@ -67,27 +67,40 @@ def handler_client_connection(client_connection,client_address):
             except:
                 request = get.get('/error/error404.html')
 
-                state = "404 Not Found"
-
+                state = "404"
+                description = 'Not Found'
+            
             file = request['file']
 
-            response = f"""\n{remote_command[2]} {state}
-                \rDate: {request['Date']}
-                \rServer: {request['Server']}
-                \rContent-Type: {request['Content-Type']}
-                \rContent-Length: {request['Content-Length']}\n\n"""
 
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
-            client_connection.sendfile(file.encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.QUIT):
-            response = '200 OK\n'
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
             is_connected = False
 
         else:
-            response = '400 Bad Request\n'
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+            state = '400'
+            description = 'Bad Request'
+
+
+        date = request['Date']
+        content_type = request['Content-Type']
+        content_length = request['Content-Length']
+
+        response = f"""\nHTTP/1.1 {state} {description}
+                \rDate: {date}
+                \rServer: {server}
+                \rContent-Type: {content_type}
+                \rContent-Length: {content_length}\n\n"""
+    
+        if file != 0:
+            response = f"""\nHTTP/1.1 {state} {description}
+                \rDate: {date}
+                \rServer: {server}
+                \rContent-Type: {content_type}
+                \rContent-Length: {content_length}\n\n
+                \r{file}"""
+        
+        client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
     
     print(f'Now, client {client_address[0]}:{client_address[1]} is disconnected...')
     client_connection.close()
