@@ -87,12 +87,21 @@ def handler_client_connection(client_connection,client_address):
                 \rServer: {server}
                 \rContent-Type: {content_type}
                 \rContent-Length: {content_length}\n\n"""
-            
-        client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+        
+        data = b''
 
         if file != 0:
-            send_file(client_connection, file)
-    
+            data += response.encode(constants.ENCONDING_FORMAT)
+            try:
+                data += file.encode(constants.ENCONDING_FORMAT)
+            except:
+                data += file
+
+                client_connection.sendall(data)
+        
+        else:
+            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+
     print(f'Now, client {client_address[0]}:{client_address[1]} is disconnected...')
     client_connection.close()
 
@@ -110,17 +119,6 @@ def server_execution():
         client_thread.start()
     print('Socket is closed...')
     server_socket.close()
-
-
-def send_file(client_connection, file):
-    file = file.encode(constants.ENCONDING_FORMAT)
-    total_bytes_sent = 0
-    while total_bytes_sent < len(file):
-        bytes_sent = client_connection.send(file[total_bytes_sent:total_bytes_sent+constants.RECV_BUFFER_SIZE])
-        if bytes_sent == 0:
-            raise RuntimeError("Socket connection broken")
-        total_bytes_sent += bytes_sent
-
 
 if __name__ == "__main__":
     main()

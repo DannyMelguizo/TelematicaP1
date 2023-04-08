@@ -20,7 +20,7 @@ def main():
         else:        
             client_socket.send(bytes(command_to_send,constants.ENCONDING_FORMAT))
             data_received = client_socket.recv(constants.RECV_BUFFER_SIZE)        
-            print(data_received.decode(constants.ENCONDING_FORMAT))
+            print(data_received.decode(constants.ENCONDING_FORMAT, errors='ignore'))
             command_to_send = input()
     
     client_socket.send(bytes(command_to_send,constants.ENCONDING_FORMAT))
