@@ -73,10 +73,10 @@ def handler_client_connection(client_connection,client_address):
                 \rDate: {request['Date']}
                 \rServer: {request['Server']}
                 \rContent-Type: {request['Content-Type']}
-                \rContent-Length: {request['Content-Length']}\n\n
-                \r{request['file']}\n\n"""
+                \rContent-Length: {request['Content-Length']}\n\n"""
 
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+            client_connection.sendfile(response['file'].encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.QUIT):
             response = '200 OK\n'
