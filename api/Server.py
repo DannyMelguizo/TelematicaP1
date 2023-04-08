@@ -58,7 +58,6 @@ def handler_client_connection(client_connection,client_address):
             
             file = request['file']
 
-
         elif(command == constants.GET):
             
             try:
