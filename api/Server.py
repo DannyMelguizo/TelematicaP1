@@ -69,6 +69,8 @@ def handler_client_connection(client_connection,client_address):
 
                 state = "404 Not Found"
 
+            file = request['file']
+
             response = f"""\n{remote_command[2]} {state}
                 \rDate: {request['Date']}
                 \rServer: {request['Server']}
@@ -76,7 +78,7 @@ def handler_client_connection(client_connection,client_address):
                 \rContent-Length: {request['Content-Length']}\n\n"""
 
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
-            client_connection.sendfile(response['file'].encode(constants.ENCONDING_FORMAT))
+            client_connection.sendfile(file.encode(constants.ENCONDING_FORMAT))
 
         elif (command == constants.QUIT):
             response = '200 OK\n'
