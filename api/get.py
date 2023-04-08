@@ -20,11 +20,10 @@ def get(path):
     except:
         file = open(new_path, 'rb')
         file = file.read()
-        file = file.decode('latin-1')
 
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
-    content_length = os.path.getsize(new_path)
+    content_length = len(file)
 
     answer = {
         'Date' : ttime,
@@ -34,3 +33,6 @@ def get(path):
     }
 
     return answer
+
+
+rq = get('\\TelematicaP1\\files\\nature.jpg')
