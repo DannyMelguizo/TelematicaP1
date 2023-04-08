@@ -30,7 +30,7 @@ def get(path):
         'Date' : ttime,
         'Content-Type' : f'{content_type} ; {constants.ENCONDING_FORMAT}',
         'Content-Length' : content_length,
-        'file' : new_path
+        'file' : file
     }
 
     return answer
