@@ -72,15 +72,12 @@ def handler_client_connection(client_connection,client_address):
             
             file = request['file']
 
-
-
         elif (command == constants.QUIT):
             is_connected = False
 
         else:
             state = '400'
             description = 'Bad Request'
-
 
         date = request['Date']
         content_type = request['Content-Type']
