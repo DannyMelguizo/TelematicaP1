@@ -99,7 +99,7 @@ Para lograr este proyecto, se llevó a cabo una implementación detallada del se
 
 El servidor web TWS también se diseñó para ser escalable y permitir la conexión de múltiples clientes simultáneamente mediante el uso de hilos de ejecución. Se utilizó la biblioteca estándar de Python, incluyendo los módulos socket y threading, así como otras bibliotecas personalizadas que se crearon para manejar solicitudes y generar respuestas.
 
-En resumen, el proyecto fue un éxito en términos de implementar un servidor web funcional que cumple con los requisitos de HTTP/1.1 y que puede manejar múltiples conexiones de clientes de manera simultánea. Además, el proyecto permitió a los desarrolladores profundizar en el conocimiento de la programación de red y en el uso de la biblioteca estándar de Python para crear aplicaciones de red complejas. Este proyecto también puede servir como una base sólida para proyectos futuros que involucren la programación de aplicaciones de red complejas.
+En resumen, el proyecto fue un éxito en términos de implementar un servidor web funcional que cumple con los requisitos de HTTP/1.1 y que puede soportar múltiples conexiones de clientes de manera simultánea. Además, el proyecto permitió a los estudiantes a profundizar en el conocimiento de la programación de red y en el uso de la biblioteca estándar de Python para crear aplicaciones de red complejas. Este proyecto también puede servir como una base sólida para proyectos futuros que involucren la programación de aplicaciones de red complejas.
 *******
 
 <div id='references'/> 
