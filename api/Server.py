@@ -79,6 +79,7 @@ def handler_client_connection(client_connection,client_address):
             state = '400'
             description = 'Bad Request'
             request = error400.error('/error/error400.html')
+            file = request['file']
 
 
         date = request['Date']
