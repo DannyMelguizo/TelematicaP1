@@ -28,30 +28,30 @@ Para la implementación de este proyecto, se utilizará la versión del protocol
 ### **2. Desarrollo**
 Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Python. A continuación se explicará a detalle el explorer del proyecto: 
 
-- Carpeta api 
-archivo constants.py
+## Carpeta api 
+- archivo constants.py
 
 //imagen 
 
 El archivo constant.py contiene algunas constantes que utilizaremos para la configuracion del servidor web. A continuación se explica cada constante:
 
-- PORT: Esta constante tiene un valor de 8080 y representa el número de puerto en el que se va a ejecutar el servidor o algún otro servicio.
+-> PORT: Esta constante tiene un valor de 8080 y representa el número de puerto en el que se va a ejecutar el servidor o algún otro servicio.
 
-- ENCONDING_FORMAT: Esta constante tiene un valor de "UTF-8" y representa el formato de codificación de caracteres que se utilizará en el servidor o en algún otro servicio.
+-> ENCONDING_FORMAT: Esta constante tiene un valor de "UTF-8" y representa el formato de codificación de caracteres que se utilizará en el servidor o en algún otro servicio.
 
-- RECV_BUFFER_SIZE: Esta constante tiene un valor de 4096 y representa el tamaño del búfer de recepción utilizado para recibir datos del cliente en el servidor.
+-> RECV_BUFFER_SIZE: Esta constante tiene un valor de 4096 y representa el tamaño del búfer de recepción utilizado para recibir datos del cliente en el servidor.
 
-- IP_SERVER: Esta constante tiene un valor de '172.31.92.75' y representa la dirección IP del servidor.
+-> IP_SERVER: Esta constante tiene un valor de '172.31.92.75' y representa la dirección IP del servidor.
 
-- GET: Esta constante tiene un valor de 'GET' y representa el método HTTP utilizado para solicitar recursos del servidor.
+-> GET: Esta constante tiene un valor de 'GET' y representa el método HTTP utilizado para solicitar recursos del servidor.
 
-- HEAD: Esta constante tiene un valor de 'HEAD' y representa el método HTTP utilizado para solicitar solo los encabezados de respuesta del servidor.
+-> HEAD: Esta constante tiene un valor de 'HEAD' y representa el método HTTP utilizado para solicitar solo los encabezados de respuesta del servidor.
 
-- POST: Esta constante tiene un valor de 'POST' y representa el método HTTP utilizado para enviar datos al servidor.
+-> POST: Esta constante tiene un valor de 'POST' y representa el método HTTP utilizado para enviar datos al servidor.
 
-- QUIT: Esta constante tiene un valor de 'QUIT' y representa el comando utilizado para cerrar una conexión TCP.
+-> QUIT: Esta constante tiene un valor de 'QUIT' y representa el comando utilizado para cerrar una conexión TCP.
 
-- SERVER: Esta constante tiene un valor de 'Apache/2.4.41 (Ubuntu)' y representa el servidor web utilizado para alojar el sitio web o la aplicación en el servidor.
+-> SERVER: Esta constante tiene un valor de 'Apache/2.4.41 (Ubuntu)' y representa el servidor web utilizado para alojar el sitio web o la aplicación en el servidor.
 
 *******
 
