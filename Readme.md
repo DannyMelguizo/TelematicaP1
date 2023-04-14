@@ -29,6 +29,7 @@ Para la implementación de este proyecto, se utilizará la versión del protocol
 Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Python. A continuación se explicará a detalle el explorer del proyecto: 
 
 ## Carpeta api 
+
 - archivo constants.py
 
 //imagen 
@@ -55,11 +56,11 @@ El archivo constants.py contiene algunas constantes que utilizaremos para la con
 
 
 
-## archivo error400.py
+- archivo error400.py
 
 //imagen
 
-- El objetivo principal del código en el archivo error400.py es definir una función llamada "error" que recibe como parámetro una cadena de texto que representa la ruta de un archivo.Por lo tanto,  esta función se utiliza para gestionar errores 400 que se puedan presentar en nuestro servidor web.
+El objetivo principal del código en el archivo error400.py es definir una función llamada "error" que recibe como parámetro una cadena de texto que representa la ruta de un archivo.Por lo tanto,  esta función se utiliza para gestionar errores 400 que se puedan presentar en nuestro servidor web.
 
 ademas, en el código se empieza por obtener la ruta del archivo, la cual utiliza la función os.getcwd() para obtener la ruta del directorio actual donde se está ejecutando el programa y os.path.join() para unir la ruta del directorio actual con la ruta del archivo. Para despue, abrir el archivo en modo de lectura y que este lea su contenido con el método read().
 
