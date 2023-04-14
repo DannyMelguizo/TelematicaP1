@@ -68,6 +68,18 @@ Posteriormente, se obtienen algunas características del archivo como la fecha y
 
 Finalmente, se crea un diccionario llamado answer que contiene toda la información anteriormente mencionada, incluyendo el contenido del archivo. Este diccionario es lo que se devuelve al llamar la función error(), y se utiliza para generar una respuesta HTTP que indica el error 400; y que contiene toda la información necesaria para que el cliente pueda entender el error y en consecuencia solucionarlo.
 
+
+
+- **archivo get.py**
+
+//imagen
+
+El objetivo principal del código en el archivo get.py es definir una función llamada "get" que recibe como parámetro una cadena de texto que representa la ruta de un archivo. Esta función se utiliza para manejar solicitudes GET en un servidor web. Lo primero que hacemos es comprobar si la ruta es el directorio raíz "/", en cuyo caso se asume que se está solicitando el archivo "index.html". De no ser este el caso, se elimina la barra inicial del camino para poder trabajar con la ruta del archivo. 
+
+Luego, se obtiene la ruta completa del archivo utilizando las funciones os.getcwd() y os.path.join(). La función try-except se utiliza para intentar abrir el archivo en modo de lectura ("r"), y si esto falla, se intenta abrir el archivo en modo de lectura binaria ("rb"). Obteniendo asi, algunas características del archivo como la fecha y hora de creación (ttime), el tipo de contenido (content_type) y la longitud del contenido (content_length), utilizando los mismos métodos que mencionamos anteriormente en el archivo error400.py.
+
+Finalmente, se crea un diccionario llamado answer que contiene toda la información anteriormente mencionada, incluyendo el contenido del archivo. Este diccionario es lo que se devuelve al llamar la función get(), y se utiliza para generarnos una respuesta HTTP que contiene toda la información necesaria para que el cliente pueda descargar el archivo solicitado.
+
 *******
 
 <div id='conclusion'/> 
