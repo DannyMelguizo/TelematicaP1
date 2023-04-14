@@ -30,7 +30,7 @@ Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Pyt
 
 ## Carpeta api 
 
-- archivo constants.py
+- **archivo constants.py**
 
 //imagen 
 
