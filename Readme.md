@@ -33,7 +33,7 @@ Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Pyt
 
 //imagen 
 
-El archivo constant.py contiene algunas constantes que utilizaremos para la configuracion del servidor web. A continuación se explica cada constante:
+El archivo constants.py contiene algunas constantes que utilizaremos para la configuracion del servidor web. A continuación se explica cada constante:
 
 -> PORT: Esta constante tiene un valor de 8080 y representa el número de puerto en el que se va a ejecutar el servidor o algún otro servicio.
 
@@ -52,6 +52,20 @@ El archivo constant.py contiene algunas constantes que utilizaremos para la conf
 -> QUIT: Esta constante tiene un valor de 'QUIT' y representa el comando utilizado para cerrar una conexión TCP.
 
 -> SERVER: Esta constante tiene un valor de 'Apache/2.4.41 (Ubuntu)' y representa el servidor web utilizado para alojar el sitio web o la aplicación en el servidor.
+
+
+
+## archivo error400.py
+
+//imagen
+
+- El objetivo principal del código en el archivo error400.py es definir una función llamada "error" que recibe como parámetro una cadena de texto que representa la ruta de un archivo.Por lo tanto,  esta función se utiliza para gestionar errores 400 que se puedan presentar en nuestro servidor web.
+
+ademas, en el código se empieza por obtener la ruta del archivo, la cual utiliza la función os.getcwd() para obtener la ruta del directorio actual donde se está ejecutando el programa y os.path.join() para unir la ruta del directorio actual con la ruta del archivo. Para despue, abrir el archivo en modo de lectura y que este lea su contenido con el método read().
+
+Posteriormente, se obtienen algunas características del archivo como la fecha y hora de creación (ttime), el tipo de contenido (content_type) y la longitud del contenido (content_length). Para obtener el tipo de contenido utilizamos la librería mimetypes y su método guess_type(), el cual nos devuelve el tipo de contenido a partir de la extensión del archivo.
+
+Finalmente, se crea un diccionario llamado answer que contiene toda la información anteriormente mencionada, incluyendo el contenido del archivo. Este diccionario es lo que se devuelve al llamar la función error(), y se utiliza para generar una respuesta HTTP que indica el error 400; y que contiene toda la información necesaria para que el cliente pueda entender el error y en consecuencia solucionarlo.
 
 *******
 
