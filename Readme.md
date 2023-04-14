@@ -30,7 +30,9 @@ Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Pyt
 
 - Carpeta api 
 archivo constants.py
+
 //imagen 
+
 El archivo constant.py contiene algunas constantes que utilizaremos para la configuracion del servidor web. A continuación se explica cada constante:
 
 - PORT: Esta constante tiene un valor de 8080 y representa el número de puerto en el que se va a ejecutar el servidor o algún otro servicio.
