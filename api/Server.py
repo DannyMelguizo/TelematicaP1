@@ -1,7 +1,7 @@
 import socket
 import threading
 import constants
-import get , head , post
+import get , head , post, error400
 
 # Defining a socket object...
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -18,8 +18,8 @@ def main():
 
 def handler_client_connection(client_connection,client_address):
     print(f'New incomming connection is coming from: {client_address[0]}:{client_address[1]}')
-    is_connected = True
-    while is_connected:
+
+    while True:
         data_recevived = client_connection.recv(constants.RECV_BUFFER_SIZE)
         remote_string = str(data_recevived.decode(constants.ENCONDING_FORMAT))
         remote_command = remote_string.split()
@@ -72,11 +72,14 @@ def handler_client_connection(client_connection,client_address):
             file = request['file']
 
         elif (command == constants.QUIT):
-            is_connected = False
+
+            break
 
         else:
             state = '400'
             description = 'Bad Request'
+            request = error400.error('/error/error400.html')
+
 
         date = request['Date']
         content_type = request['Content-Type']
@@ -87,20 +90,16 @@ def handler_client_connection(client_connection,client_address):
                 \rServer: {server}
                 \rContent-Type: {content_type}
                 \rContent-Length: {content_length}\n\n"""
-        
-        data = b''
 
         if file != 0:
-            data += response.encode(constants.ENCONDING_FORMAT)
-            try:
-                data += file.encode(constants.ENCONDING_FORMAT)
-            except:
-                data += file
+            response = f"""\nHTTP/1.1 {state} {description}
+                \rDate: {date}
+                \rServer: {server}
+                \rContent-Type: {content_type}
+                \rContent-Length: {content_length}\n\n
+                \r{file}\n\n"""
 
-                client_connection.sendall(data)
-        
-        else:
-            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+        client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
 
     print(f'Now, client {client_address[0]}:{client_address[1]} is disconnected...')
     client_connection.close()
