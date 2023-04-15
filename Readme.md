@@ -13,10 +13,10 @@
 
 <div id='introduction'/> 
 
-### **1. Introduccion**
+### **i. Introduccion**
 En nuestro mundo actual, la transferencia de datos y la comunicación entre dispositivos se realiza a través de diferentes protocolos de red. Siendo  así, el protocolo de internet TCP/IP como uno de los más utilizados, el cual es una arquitectura de red que proporciona una forma estándar de comunicación entre diferentes dispositivos conectados a internet. De esta manera, podemos encontrar dentro de la arquitectura la capa de aplicación, la cual es primordial para la comunicación entre aplicaciones y servicios.
 
-Por lo tanto, el siguiente proyecto tiene como objetivo explorar y enfatizar la aplicación de la capa de aplicación de la arquitectura TCP/IP, específicamente en el estudio del protocolo HTTP desde un punto de vista de programación en red. El protocolo HTTP(Hyper text Transfer Protocol) es el protocolo de comunicación utilizado en la World  Wide Web para la transferencia de datos de un servidor web a un cliente, actuando como un navegador web.
+Por lo tanto, el siguiente proyecto tiene como objetivo explorar y enfatizar la aplicación de la capa de aplicación de la arquitectura TCP/IP, específicamente en el estudio del protocolo HTTP desde un punto de vista de programación en red. El protocolo HTTP(Hyper Text Transfer Protocol) es el protocolo de comunicación utilizado en la World  Wide Web para la transferencia de datos de un servidor web a un cliente, actuando como un navegador web.
 
 Para lograr este objetivo, se desarrollará e implementará un servidor web llamado Telematics Web Server (TWS), que tendrá como función principal la entrega de recursos web a los clientes que lo soliciten. Estos recursos pueden ser páginas HTML, archivos de estilo, imágenes, entre otros.
 
@@ -25,74 +25,41 @@ Para la implementación de este proyecto, se utilizará la versión del protocol
 
 <div id='development'/> 
 
-### **2. Desarrollo**
-Para el desarrollo de este proyecto, utilizamos el lenguaje de programación Python. A continuación se explicará a detalle el explorer del proyecto: 
+### **ii. Desarrollo**
+Para el desarrollo del proyecto se tuvo como base el Laboratorio de Sockets Multi Thread realizado por el docente, ademas, se comparo con el Laboratorio de Sockets Secuencial, para comprender el funcionamiento y como se implementaban los hilos para el manejo de multiples peticiones.
 
-## Carpeta api 
+Fue un proyecto que fue desarrollado en Python, no gracias a su rapidez ni fluidez sino, debido al facil y amplio manejo que tenemos en el lenguaje, se desplego en AWS y se uso el servidor web de Apache2.
 
-- **archivo constants.py**
+Implementamos las siguientes librerias para el desarrollo del proyecto:
 
-//imagen 
+* **socket**
+* **threading**
+* **os**
+* **time**
+* **mimetypes**
 
-El archivo constants.py contiene algunas constantes que utilizaremos para la configuracion del servidor web. A continuación se explica cada constante:
+A partir de la libreria socket se establece y se crea la conexión con el servidor, la libreria threading es utilizada para el manejo de multiples hilos, lo que permite realizar multiples conexiones y peticiones al tiempo y cada usuario llamara a la funcion handler_client_connection. Esta funcion esta diseñada para manejar las peticiones del usuario, en este caso y para este proyecto, solo se aceptan las peticiones HEAD, GET, POST y QUIT, esta ultima para cerrar la conexion con el servidor.
 
--> PORT: Esta constante tiene un valor de 8080 y representa el número de puerto en el que se va a ejecutar el servidor o algún otro servicio.
+handler_client_connection es una funcion que se continuara ejecutando por el usuario hasta que la peticion que este solicite sea un QUIT, en caso contrario, continuara procesando las peticiones y llamando a sus respectivas funciones, tenemos definidas, get, post, head y error400, cada una de las funciones trabaja de manera similar, ya que reciben un path, o url que es dado por la peticion del usuario, teniendo como base que una peticion esta dada como la siguiente:
 
--> ENCONDING_FORMAT: Esta constante tiene un valor de "UTF-8" y representa el formato de codificación de caracteres que se utilizará en el servidor o en algún otro servicio.
+```sh
+GET / HTTP/1.1
+```
 
--> RECV_BUFFER_SIZE: Esta constante tiene un valor de 4096 y representa el tamaño del búfer de recepción utilizado para recibir datos del cliente en el servidor.
+De la cual, extraemos el '/' que seria el archivo pedido y tomamos datos como lo son: su tamaño, tipo de archivo, fecha en la que fue realizada la peticion con base al estandar GMT y dado el caso, el archivo, estos datos son almacenados para luego ser entregados a la funcion handler_client_connection que entregara una respuesta a la peticion del usuario.
 
--> IP_SERVER: Esta constante tiene un valor de '172.31.92.75' y representa la dirección IP del servidor.
+Se manejan estados y errores como lo son:
 
--> GET: Esta constante tiene un valor de 'GET' y representa el método HTTP utilizado para solicitar recursos del servidor.
-
--> HEAD: Esta constante tiene un valor de 'HEAD' y representa el método HTTP utilizado para solicitar solo los encabezados de respuesta del servidor.
-
--> POST: Esta constante tiene un valor de 'POST' y representa el método HTTP utilizado para enviar datos al servidor.
-
--> QUIT: Esta constante tiene un valor de 'QUIT' y representa el comando utilizado para cerrar una conexión TCP.
-
--> SERVER: Esta constante tiene un valor de 'Apache/2.4.41 (Ubuntu)' y representa el servidor web utilizado para alojar el sitio web o la aplicación en el servidor.
-
-
-
-- **archivo error400.py**
-
-//imagen
-
-El proposito principal del código en el archivo error400.py es definir una función llamada "error" que recibe como parámetro una cadena de texto que representa la ruta de un archivo.Por lo tanto,  esta función se utiliza para gestionar errores 400 que se puedan presentar en nuestro servidor web.
-
-ademas, en el código se empieza por obtener la ruta del archivo, la cual utiliza la función os.getcwd() para obtener la ruta del directorio actual donde se está ejecutando el programa y os.path.join() para unir la ruta del directorio actual con la ruta del archivo. Para despue, abrir el archivo en modo de lectura y que este lea su contenido con el método read().
-
-Posteriormente, se obtienen algunas características del archivo como la fecha y hora de creación (ttime), el tipo de contenido (content_type) y la longitud del contenido (content_length). Para obtener el tipo de contenido utilizamos la librería mimetypes y su método guess_type(), el cual nos devuelve el tipo de contenido a partir de la extensión del archivo.
-
-Finalmente, se crea un diccionario llamado answer que contiene toda la información anteriormente mencionada, incluyendo el contenido del archivo. Este diccionario es lo que se devuelve al llamar la función error(), y se utiliza para generar una respuesta HTTP que indica el error 400; y que contiene toda la información necesaria para que el cliente pueda entender el error y en consecuencia solucionarlo.
-
-
-
-- **archivo get.py**
-
-//imagen
-
-El proposito principal del código en el archivo get.py es definir una función llamada "get" que recibe como parámetro una cadena de texto que representa la ruta de un archivo. Esta función se utiliza para manejar solicitudes GET en un servidor web. Lo primero que hacemos es comprobar si la ruta es el directorio raíz "/", en cuyo caso se asume que se está solicitando el archivo "index.html". De no ser este el caso, se elimina la barra inicial del camino para poder trabajar con la ruta del archivo. 
-
-Luego, se obtiene la ruta completa del archivo utilizando las funciones os.getcwd() y os.path.join(). La función try-except se utiliza para intentar abrir el archivo en modo de lectura ("r"), y si esto falla, se intenta abrir el archivo en modo de lectura binaria ("rb"). Obteniendo asi, algunas características del archivo como la fecha y hora de creación (ttime), el tipo de contenido (content_type) y la longitud del contenido (content_length), utilizando los mismos métodos que mencionamos anteriormente en el archivo error400.py.
-
-Finalmente, se crea un diccionario llamado answer que contiene toda la información anteriormente mencionada, incluyendo el contenido del archivo. Este diccionario es lo que se devuelve al llamar la función get(), y se utiliza para generarnos una respuesta HTTP que contiene toda la información necesaria para que el cliente pueda descargar el archivo solicitado.
-
-
-
-- **archivo head.py**
-
-//imagen 
-
-
+* **200 OK**: Indica que la peticion fue entregada con exito.
+* **400 Bad Request**: Indica que la peticion realizada es incorrecta.
+* **404 Not Found**: Indica que el archivo requerido no fue encontrado dentro del servidor.
+* **405 Method Not Allowed**: Indica que la peticion no se puede realizar en la direccion especificada.
 
 *******
 
 <div id='conclusion'/> 
 
-### **3. Conclusiones**
+### **iii. Conclusiones**
 En conclusión, el proyecto de desarrollo e implementación del servidor web Telematics Web Server (TWS) se enfocó en explorar la aplicación de la capa de aplicación de la arquitectura TCP/IP, específicamente en el estudio y programación del protocolo HTTP desde una perspectiva de red. La principal función de un servidor web es la entrega de recursos web a los clientes que lo solicitan, y para ello se utilizamos el protocolo HTTP en su versión 1.1.
 
 Para lograr este proyecto, se llevó a cabo una implementación detallada del servidor web, que incluyó el manejo de solicitudes HTTP GET, HEAD y POST, así como la generación de respuestas correspondientes, incluyendo códigos de estado, descripciones, fechas, tipos de contenido y longitudes. Además, se implementaron errores HTTP, incluyendo el código de estado 400 (solicitud incorrecta), 404 (no encontrado) y 405 (método no permitido).
@@ -104,7 +71,11 @@ En resumen, el proyecto fue un éxito en términos de implementar un servidor we
 
 <div id='references'/> 
 
-### **4. Referencias**
+### **iv. Referencias**
+
+* https://github.com/ST0255/st0255-20231/tree/main/LabSocketsMultiThread
+* https://datatracker.ietf.org/doc/rfc2616/
+* https://www.postman.com/
 
 *******
 
