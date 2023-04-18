@@ -56,7 +56,7 @@ def handler_client_connection(client_connection,client_address):
                 request = head.head(remote_command[1])
                 
             except:
-                request = head.head('/error/error404.html')
+                request = head.head(constants.E404)
                 state = "404"
                 description = 'Not Found'
 
@@ -67,7 +67,7 @@ def handler_client_connection(client_connection,client_address):
             if remote_command[1] != '/confirmacion.html':
                 state = '405'
                 description = 'Method Not Allowed'
-                request = post.post('/error/error405.html')
+                request = post.post(constants.E405)
             else:
                 request = post.post(remote_command[1])
             
@@ -81,7 +81,7 @@ def handler_client_connection(client_connection,client_address):
                 request = get.get(remote_command[1])
                 
             except:
-                request = get.get('/error/error404.html')
+                request = get.get(constants.E404)
 
                 state = "404"
                 description = 'Not Found'
@@ -97,7 +97,7 @@ def handler_client_connection(client_connection,client_address):
             #Si la peticion es diferente de POST, GET, HEAD o QUIT retorna error el 400
             state = '400'
             description = 'Bad Request'
-            request = error400.error('/error/error400.html')
+            request = error400.error(constants.E400)
             file = request['file']
 
         #Asigna las variables del diccionario request, a sus respectivas variables
