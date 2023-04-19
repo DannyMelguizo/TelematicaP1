@@ -79,13 +79,21 @@ def handler_client_connection(client_connection,client_address):
 
             #La peticion POST solamente funciona para la ruta /confirmacion.html
             #En caso de no ser dicha ruta, retorna el error 405
-            if remote_command[1] != '/confirmacion.html':
-                state = '405'
-                description = 'Method Not Allowed'
-                request = post.post(constants.E405)
+            if remote_command[1] == '/confirmacion.html':
+                request = post.post(remote_command[1])   
 
             else:
-                request = post.post(remote_command[1])
+                try:
+                    request = post.post(remote_command[1])
+
+                    state = '405'
+                    description = 'Method Not Allowed'
+                    request = post.post(constants.E405)
+
+                except:
+                    state = '404'
+                    description = 'Not Found'
+                    request = post.post(constants.E404)
 
         elif(command == constants.GET):
             
@@ -113,12 +121,9 @@ def handler_client_connection(client_connection,client_address):
             file = request['file']
 
             response = f"""\nHTTP/1.1 {state} {description}
-                \rDate: {date}
                 \rServer: {server}
                 \rAllow: GET, HEAD, POST, QUIT
                 \rKeep-Alive: {keep_alive}
-                \rContent-Type: {content_type}
-                \rContent-Length: {content_length}
                 \rConnection: {connection}\n\n"""
             
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
