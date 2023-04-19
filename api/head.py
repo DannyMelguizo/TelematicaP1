@@ -16,11 +16,12 @@ def head(path):
 
     rt = os.getcwd()
     new_path = os.path.join(str(os.path.dirname(rt)), path)
+    file_stat = os.stat(new_path)
 
     #Se determinan las diferentes cualidades del archivo y se establece la fecha de la petición
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
     content_type = mimetypes.guess_type(new_path)[0]
-    content_length = os.path.getsize(new_path)
+    content_length = file_stat.st_size
 
     #Respuesta a la petición
     answer = {

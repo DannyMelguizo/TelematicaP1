@@ -40,11 +40,11 @@ def handler_client_connection(client_connection,client_address):
 
         state = '200'
         description = 'OK'
-        date = 0
+        date , content_type, content_length, file, last_modified, etag = 0
         server = constants.SERVER
-        content_type = 0
-        content_length = 0
-        file = 0
+        accept_ranges = 'bytes'
+        keep_alive = f'timeout={constants.KEEP_ALIVE_TIMEOUT}'
+        connection = 'Keep-Alive'
 
         request = 0
         
@@ -60,6 +60,21 @@ def handler_client_connection(client_connection,client_address):
                 state = "404"
                 description = 'Not Found'
 
+            date = request['Date']
+            content_type = request['Content-Type']
+            content_length = request['Content-Length']
+            
+            response = f"""\nHTTP/1.1 {state} {description}
+                \rDate: {date}
+                \rServer: {server}
+                \rKeep-Alive: {keep_alive}
+                \rContent-Type: {content_type}
+                \rContent-Length: {content_length}
+                \rConnection: {connection}\n\n"""
+
+            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+            continue
+
         elif (command == constants.POST):
 
             #La peticion POST solamente funciona para la ruta /confirmacion.html
@@ -68,10 +83,9 @@ def handler_client_connection(client_connection,client_address):
                 state = '405'
                 description = 'Method Not Allowed'
                 request = post.post(constants.E405)
+
             else:
                 request = post.post(remote_command[1])
-            
-            file = request['file']
 
         elif(command == constants.GET):
             
@@ -85,8 +99,6 @@ def handler_client_connection(client_connection,client_address):
 
                 state = "404"
                 description = 'Not Found'
-            
-            file = request['file']
 
         elif (command == constants.QUIT):
 
@@ -100,25 +112,37 @@ def handler_client_connection(client_connection,client_address):
             request = error400.error(constants.E400)
             file = request['file']
 
+            response = f"""\nHTTP/1.1 {state} {description}
+                \rDate: {date}
+                \rServer: {server}
+                \rAllow: GET, HEAD, POST, QUIT
+                \rKeep-Alive: {keep_alive}
+                \rContent-Type: {content_type}
+                \rContent-Length: {content_length}
+                \rConnection: {connection}\n\n"""
+            
+            client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
+            continue
+
         #Asigna las variables del diccionario request, a sus respectivas variables
         date = request['Date']
         content_type = request['Content-Type']
         content_length = request['Content-Length']
+        last_modified = request['Last-Modified']
+        etag = request['ETag']
+        file = request['file']
 
         #response: string, contiene la informacion que sera entregada al usuario
         response = f"""\nHTTP/1.1 {state} {description}
                 \rDate: {date}
                 \rServer: {server}
+                \rLast-Modified: {last_modified}
+                \rETag: {etag}
+                \rAccept-Ranges: {accept_ranges}
                 \rContent-Type: {content_type}
-                \rContent-Length: {content_length}\n\n"""
-
-        #Si la peticion contiene un archivo, se le agrega a la variable response
-        if file != 0:
-            response = f"""\nHTTP/1.1 {state} {description}
-                \rDate: {date}
-                \rServer: {server}
-                \rContent-Type: {content_type}
-                \rContent-Length: {content_length}\n\n
+                \rContent-Length: {content_length}
+                \rKeep-Alive: {keep_alive}
+                \rConnection: {connection}\n\n
                 \r{file}\n\n"""
             
         client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
