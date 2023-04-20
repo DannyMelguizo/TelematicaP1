@@ -76,6 +76,6 @@ En resumen, el proyecto fue un éxito en términos de implementar un servidor we
 * https://github.com/ST0255/st0255-20231/tree/main/LabSocketsMultiThread
 * https://datatracker.ietf.org/doc/rfc2616/
 * https://www.postman.com/
-
+* https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 *******
 
