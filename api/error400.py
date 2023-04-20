@@ -1,7 +1,7 @@
 import time
 import os
 import constants
-import mimetypes
+import type
 
 
 def error(path):
@@ -17,7 +17,7 @@ def error(path):
 
     #Se determinan las diferentes cualidades del archivo y se establece la fecha de la petición
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
-    content_type = mimetypes.guess_type(new_path)[0]
+    content_type = type.mimetype(new_path)
     content_length = os.path.getsize(new_path)
 
     #Respuesta a la petición
