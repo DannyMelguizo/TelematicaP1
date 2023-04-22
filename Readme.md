@@ -47,7 +47,7 @@ handler_client_connection es una funcion que se continuara ejecutando por el usu
 GET / HTTP/1.1
 ```
 
-De la cual, extraemos el '/' que seria el archivo pedido y tomamos datos como lo son: su tamaño, tipo de archivo, fecha en la que fue realizada la peticion con base al estandar GMT, un ETag generado con base a la ultima modificacion del archivo, la ultima modificacion del archivo y dado el caso, el archivo, estos datos son almacenados para luego ser entregados a la funcion handler_client_connection que entregara una respuesta a la peticion del usuario. El sistema tambien permite el uso de headers, aunque realmente solo se implementaron Connection y Keep-Alive, que se pasan como parametros en la peticion como se muestra acontinuacion:
+De la cual, extraemos el '/' que seria el archivo pedido y tomamos datos como lo son: su tamaño, tipo de archivo, fecha en la que fue realizada la peticion con base al estandar GMT, un ETag generado con base a la ultima modificacion del archivo, la ultima modificacion del archivo y dado el caso, el archivo, estos datos son almacenados para luego ser entregados a la funcion handler_client_connection que entregara una respuesta a la peticion del usuario. El sistema tambien permite el uso de headers, *aunque realmente solo se implementaron Connection y Keep-Alive*, que se pasan como parametros en la peticion como se muestra acontinuacion:
 
 ```sh
 GET / HTTP/1.1
