@@ -2,6 +2,8 @@ import os
 
 def mimetype(new_path):
     
+    #extensiones: dict, diccionario que contiene diferentes extensiones con su respectivo mimetype, si
+    #la extension solicitada no se encuentra dentro del diccionario, lo reconocera como un application/octet-stream
     extensiones = {
         '.3gp': 'video/3gpp',
         '.7z': 'application/x-7z-compressed',

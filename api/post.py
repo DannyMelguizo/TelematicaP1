@@ -18,6 +18,8 @@ def post(path):
 
     #Se determinan las diferentes cualidades del archivo y se establece la fecha de la petición
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
+
+    #Llama al archivo type, una implementacion manual para conocer el mimetype del archivo
     content_type = type.mimetype(new_path)
     content_length = file_stat.st_size
     last_modified = file_stat.st_mtime
@@ -25,6 +27,7 @@ def post(path):
     etag_str = str(last_modified) + str(content_length)
     etag_str = hash(etag_str)
 
+    #la variable etag se codifica en hexa con base a la ultima modificacion
     etag = hex(etag_str)[2:]
     last_modified = time.strftime('%a, %d %b %Y %H:%M:%S GMT', time.gmtime(last_modified))
 

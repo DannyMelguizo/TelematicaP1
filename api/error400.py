@@ -17,6 +17,8 @@ def error(path):
 
     #Se determinan las diferentes cualidades del archivo y se establece la fecha de la petición
     ttime = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())
+
+    #Llama al archivo type, una implementacion manual para conocer el mimetype del archivo
     content_type = type.mimetype(new_path)
     content_length = os.path.getsize(new_path)
 
