@@ -36,17 +36,36 @@ Implementamos las siguientes librerias para el desarrollo del proyecto:
 * **threading**
 * **os**
 * **time**
-* **mimetypes**
+
+Adicionalmente a estas librerias, se desarrollo un analizador de extensiones, el cual se encarga de decir que tipo de mimetype posee cada archivo, esta funcion es utilizada a la hora de enviar una respuesta al usuario.
 
 A partir de la libreria socket se establece y se crea la conexión con el servidor, la libreria threading es utilizada para el manejo de multiples hilos, lo que permite realizar multiples conexiones y peticiones al tiempo y cada usuario llamara a la funcion handler_client_connection. Esta funcion esta diseñada para manejar las peticiones del usuario, en este caso y para este proyecto, solo se aceptan las peticiones HEAD, GET, POST y QUIT, esta ultima para cerrar la conexion con el servidor.
 
-handler_client_connection es una funcion que se continuara ejecutando por el usuario hasta que la peticion que este solicite sea un QUIT, en caso contrario, continuara procesando las peticiones y llamando a sus respectivas funciones, tenemos definidas, get, post, head y error400, cada una de las funciones trabaja de manera similar, ya que reciben un path, o url que es dado por la peticion del usuario, teniendo como base que una peticion esta dada como la siguiente:
+handler_client_connection es una funcion que se continuara ejecutando por el usuario hasta que la peticion que este solicite sea un QUIT, en caso contrario, continuara procesando las peticiones y llamando a sus respectivas funciones; tenemos definidas, get, post, head y error400, cada una de las funciones trabaja de manera similar, ya que reciben un path, o url que es dado por la peticion del usuario, teniendo como base que una peticion esta dada como la siguiente:
 
 ```sh
 GET / HTTP/1.1
 ```
 
-De la cual, extraemos el '/' que seria el archivo pedido y tomamos datos como lo son: su tamaño, tipo de archivo, fecha en la que fue realizada la peticion con base al estandar GMT y dado el caso, el archivo, estos datos son almacenados para luego ser entregados a la funcion handler_client_connection que entregara una respuesta a la peticion del usuario.
+De la cual, extraemos el '/' que seria el archivo pedido y tomamos datos como lo son: su tamaño, tipo de archivo, fecha en la que fue realizada la peticion con base al estandar GMT, un ETag generado con base a la ultima modificacion del archivo, la ultima modificacion del archivo y dado el caso, el archivo, estos datos son almacenados para luego ser entregados a la funcion handler_client_connection que entregara una respuesta a la peticion del usuario. El sistema tambien permite el uso de headers, aunque realmente solo se implementaron Connection y Keep-Alive, que se pasan como parametros en la peticion como se muestra acontinuacion:
+
+```sh
+GET / HTTP/1.1
+Keep-Alive: timeout=5
+Connection: Keep-Alive
+```
+En la peticion pueden ir incluidos los headers o no tenerlos, no afecta el funcionamiento del programa, adicional, si se le ingresan headers que no estan establecidos, no genera error como tal, pero no seran tomados encuenta a la hora de entregar una peticion al usuario.
+
+Aqui presentamos una posible respuesta a una solicitud:
+
+```sh
+HTTP/1.1 200 OK
+Date: Tue, 18 Apr 2023 21:44:43 GMT
+Server: Apache/2.4.41 (Ubuntu)
+Content-Type: text/html ; UTF-8
+Content-Length: 1175
+Connection: Keep-Alive
+```
 
 Se manejan estados y errores como lo son:
 
