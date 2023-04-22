@@ -71,6 +71,9 @@ Content-Length: 1175
 Connection: Keep-Alive
 ```
 
+Realizamos adicionalmente el siguiente diagrama para representar el manejo de los diferentes recursos que usa el programa.
+![Diagrama](img/Diagrama.png)
+
 Se manejan estados y errores como lo son:
 
 * **200 OK**: Indica que la peticion fue entregada con exito.
