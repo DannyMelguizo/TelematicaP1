@@ -56,6 +56,8 @@ Connection: Keep-Alive
 ```
 En la peticion pueden ir incluidos los headers o no tenerlos, no afecta el funcionamiento del programa, adicional, si se le ingresan headers que no estan establecidos, no genera error como tal, pero no seran tomados encuenta a la hora de entregar una peticion al usuario.
 
+![Diagrama de implementacion](img/Diagrama-implementacion.png)
+
 Aqui presentamos una posible respuesta a una solicitud:
 
 ```sh
