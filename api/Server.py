@@ -25,7 +25,7 @@ def handler_client_connection(client_connection,client_address):
     #si esta en 0, se entiende que la conexion se quedara establecida a menos que se indique lo contrario
     #connection_standar: string, establece si luego de la peticion se cerrara la conexion o se quedara abierta
     keep_alive_timeout = 0
-    connection_standar = 'Keep-Alive'
+    connection_standar = 'keep-alive'
 
     #Se mantiene la conexión hasta que el usuario envie la peticion QUIT, o que se cierre la conexion
     while True:
@@ -38,23 +38,19 @@ def handler_client_connection(client_connection,client_address):
             data_recevived = client_connection.recv(constants.RECV_BUFFER_SIZE) #Recibe la peticion del usuario
             remote_string = str(data_recevived.decode(constants.ENCONDING_FORMAT))
             remote_command = remote_string.split()  #Parte la peticion para un mejor manejo
+            req_file = remote_command[1]
 
-            #Se almacenan los diferentes headers que el usuario envia en la peticion al servidor
-            while True:
-                #Se almacena el antiguo comando, esto para verificar si el antiguo es igual al actual
-                #Es decir, envio un \n
-                new_str = remote_command
+            req_file = req_file.split('?')[0]
 
-                #A;ade a la antigua peticion, la peticion o header actual
-                data_recevived += client_connection.recv(constants.RECV_BUFFER_SIZE) #Recibe la peticion del usuario
-                remote_string = str(data_recevived.decode(constants.ENCONDING_FORMAT))
-                remote_command = remote_string.split()  #Parte la peticion para un mejor manejo
+            req_file = req_file.lstrip('/')
 
-                #Se comprueba si envio un \n
-                if new_str == remote_command:
-                    break
+            print(req_file)
+
+            if(req_file == ''):
+                req_file = 'index.html'
 
             command = remote_command[0] #Determina que exactamente esta pidiendo el usuario
+
 
             print (f'Data received from: {client_address[0]}:{client_address[1]}')
             print(command) #Se imprime en la consola del servidor que peticion se realizo
@@ -100,6 +96,13 @@ def handler_client_connection(client_connection,client_address):
             connection = connection_standar
 
             request = 0
+
+            try:
+                file = open(req_file, 'rb')
+                page = file.read()
+                file.close()
+            except:
+                page = ''
             
             if (command == constants.HEAD):
 
@@ -118,7 +121,7 @@ def handler_client_connection(client_connection,client_address):
                 content_length = request['Content-Length']
 
                 #Da una respuesta dependiendo de si el usuario cambio los datos estandares
-                if keep_alive != 0 and connection == 'Keep-Alive':
+                if keep_alive != 0 and connection == 'keep-alive':
                     response = f"""\nHTTP/1.1 {state} {description}
                         \rDate: {date}
                         \rServer: {server}
@@ -134,11 +137,13 @@ def handler_client_connection(client_connection,client_address):
                         \rContent-Length: {content_length}
                         \rConnection: {connection}\n\n"""
 
+                response += page
+
                 client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
                 #Comprueba si hay que tener un timeout o si se hay que cerrar la conexion
                 if keep_alive != 0:
                     client_connection.settimeout(keep_alive)
-                elif connection != 'Keep-Alive':
+                elif connection != 'keep-alive':
                     break
                 continue
 
@@ -189,7 +194,7 @@ def handler_client_connection(client_connection,client_address):
                 file = request['file']
 
                 #Da una respuesta dependiendo de si el usuario cambio los datos estandares
-                if keep_alive != 0 and connection == 'Keep-Alive':
+                if keep_alive != 0 and connection == 'keep-alive':
                     response = f"""\nHTTP/1.1 {state} {description}
                         \rDate: {date}
                         \rServer: {server}
@@ -203,10 +208,12 @@ def handler_client_connection(client_connection,client_address):
                         \rAllow: GET, HEAD, POST, QUIT
                         \rConnection: {connection}\n\n"""
 
+                response += page
+
                 client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
                 if keep_alive != 0:
                     client_connection.settimeout(keep_alive)
-                elif connection != 'Keep-Alive':
+                elif connection != 'keep-alive':
                     break
                 continue
 
@@ -221,7 +228,7 @@ def handler_client_connection(client_connection,client_address):
             response= ''
 
             #response: string, contiene la informacion que sera entregada al usuario
-            if keep_alive != 0 and connection == 'Keep-Alive':
+            if keep_alive != 0 and connection == 'keep-alive':
                 response = f"""\nHTTP/1.1 {state} {description}
                         \rDate: {date}
                         \rServer: {server}
@@ -245,6 +252,8 @@ def handler_client_connection(client_connection,client_address):
                         \rConnection: {connection}\n\n
                         \r{file}\n\n"""
                 
+            response += page
+
             client_connection.sendall(response.encode(constants.ENCONDING_FORMAT))
         except:
             break
@@ -252,7 +261,7 @@ def handler_client_connection(client_connection,client_address):
         #Comprueba si hay que tener un timeout o si se hay que cerrar la conexion
         if keep_alive != 0:
             client_connection.settimeout(keep_alive)
-        elif connection != 'Keep-Alive':
+        elif connection != 'keep-alive':
             break
         else:
             continue
@@ -268,6 +277,7 @@ def server_execution():
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     print ('Socket is bind to address and port...') 
     server_socket.listen(5)
+
     print('Socket is listening...')
 
     #El servidor se mantiene en estado de ejecucion
